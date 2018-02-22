@@ -30,7 +30,9 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
+            var connection = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
+            services.AddDbContext<DataContext>(options => options.UseNpgsql(connection));
+            //services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddMvc();
             services.AddAutoMapper();
 
